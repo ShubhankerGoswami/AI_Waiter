@@ -2,6 +2,8 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Trust from './components/Trust'
 import Problem from './components/Problem'
+import AIChatbot from './components/AIChatbot'
+import AIMenuUpload from './components/AIMenuUpload'
 import Features from './components/Features'
 import Dashboard from './components/Dashboard'
 import HowItWorks from './components/HowItWorks'
@@ -18,6 +20,8 @@ function App() {
       <Hero />
       <Trust />
       <Problem />
+      <AIChatbot />
+      <AIMenuUpload />
       <Features />
       <Dashboard />
       <HowItWorks />

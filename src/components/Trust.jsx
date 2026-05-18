@@ -48,7 +48,7 @@ export default function Trust() {
           className="text-center"
         >
           <p className="text-xs font-medium text-gray-500 uppercase tracking-widest mb-8">
-            Trusted by restaurants across India
+            Trusted by AI-powered restaurants across India
           </p>
           <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-12">
             {restaurantBrands.map((brand, i) => (

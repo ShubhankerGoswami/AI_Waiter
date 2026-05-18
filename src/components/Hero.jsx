@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, Play, TrendingUp, ShoppingBag, Brain, Clock, Star } from 'lucide-react'
+import { ArrowRight, Play, TrendingUp, Brain, Sparkles, MessageSquare, Zap } from 'lucide-react'
 
 const floatingCards = [
   {
     icon: TrendingUp,
-    label: '+18% Repeat Customers',
-    sub: 'vs last month',
+    label: '+22% Avg Order Value',
+    sub: 'AI upselling active',
     color: 'text-emerald-400',
     bg: 'bg-emerald-500/10',
     border: 'border-emerald-500/20',
@@ -13,44 +13,34 @@ const floatingCards = [
     delay: 0,
   },
   {
-    icon: ShoppingBag,
-    label: '412 Orders This Week',
-    sub: 'Real-time tracking',
-    color: 'text-orange-400',
-    bg: 'bg-orange-500/10',
-    border: 'border-orange-500/20',
-    position: 'top-32 -right-4 lg:-right-10',
-    delay: 0.3,
-  },
-  {
     icon: Brain,
-    label: 'AI Insight Generated',
-    sub: 'Peak Hour: 7 PM',
+    label: 'AI Upsell Success',
+    sub: 'Garlic bread added ×34',
     color: 'text-purple-400',
     bg: 'bg-purple-500/10',
     border: 'border-purple-500/20',
+    position: 'top-36 -right-4 lg:-right-12',
+    delay: 0.3,
+  },
+  {
+    icon: Sparkles,
+    label: 'Repeat Customer ID\'d',
+    sub: 'Priya — 4th visit 🎉',
+    color: 'text-orange-400',
+    bg: 'bg-orange-500/10',
+    border: 'border-orange-500/20',
     position: 'bottom-28 -left-4 lg:-left-14',
     delay: 0.6,
   },
   {
-    icon: Star,
-    label: 'Top Dish: Paneer Tikka',
-    sub: '89 orders today',
-    color: 'text-yellow-400',
-    bg: 'bg-yellow-500/10',
-    border: 'border-yellow-500/20',
-    position: 'bottom-8 -right-4 lg:-right-12',
-    delay: 0.9,
-  },
-  {
-    icon: Clock,
-    label: 'Avg. Wait: 4 min',
-    sub: '↓ 62% faster',
+    icon: MessageSquare,
+    label: 'AI Waiter Active',
+    sub: '14 tables ordering now',
     color: 'text-blue-400',
     bg: 'bg-blue-500/10',
     border: 'border-blue-500/20',
-    position: 'top-1/2 -right-4 lg:-right-16 -translate-y-1/2',
-    delay: 1.2,
+    position: 'bottom-6 -right-4 lg:-right-12',
+    delay: 0.9,
   },
 ]
 
@@ -65,7 +55,7 @@ function FloatingCard({ icon: Icon, label, sub, color, bg, border, position, del
       <motion.div
         animate={{ y: [0, -8, 0] }}
         transition={{ duration: 3 + delay, repeat: Infinity, ease: 'easeInOut', delay }}
-        className={`glass ${border} border rounded-2xl px-3 py-2.5 shadow-2xl min-w-[160px] backdrop-blur-xl`}
+        className={`glass ${border} border rounded-2xl px-3 py-2.5 shadow-2xl min-w-[170px] backdrop-blur-xl`}
       >
         <div className="flex items-center gap-2">
           <div className={`w-8 h-8 rounded-lg ${bg} flex items-center justify-center flex-shrink-0`}>
@@ -81,106 +71,119 @@ function FloatingCard({ icon: Icon, label, sub, color, bg, border, position, del
   )
 }
 
-function DashboardMockup() {
+const chatMessages = [
+  { from: 'ai', text: '👋 Hi! I\'m your AI Waiter. What would you like today?', delay: 1.0 },
+  { from: 'user', text: 'I want a burger please', delay: 1.6 },
+  { from: 'ai', text: '🍔 Great choice! Most customers add fries + cold coffee — it\'s 15% off as a combo. Want me to add it?', delay: 2.2 },
+  { from: 'user', text: 'Yes, add the combo!', delay: 2.9 },
+  { from: 'ai', text: '✅ Added! Also — last time you loved Garlic Bread. Want it again?', delay: 3.5 },
+]
+
+function HeroChatMockup() {
   return (
     <div className="relative w-full rounded-2xl overflow-hidden glass border border-white/10 shadow-2xl">
-      {/* Dashboard Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+      {/* Chrome bar */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/2">
         <div className="flex gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-red-500/70" />
-          <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-          <div className="w-3 h-3 rounded-full bg-green-500/70" />
+          <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+          <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
+          <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
         </div>
         <div className="flex items-center gap-2 text-xs text-gray-400">
-          <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          Live Dashboard
+          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          AI Waiter — Table 07
         </div>
-        <div className="text-xs text-gray-500">beingCogni AI Waiter</div>
+        <div className="text-[10px] text-gray-600">beingCogni</div>
       </div>
 
-      {/* Dashboard Content */}
-      <div className="p-4 space-y-3">
-        {/* Top stats */}
-        <div className="grid grid-cols-3 gap-3">
+      <div className="p-4 space-y-4">
+        {/* QR scan indicator */}
+        <div className="flex items-center gap-3 bg-orange-500/10 border border-orange-500/20 rounded-xl px-3 py-2.5">
+          <div className="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+            <Zap className="w-4 h-4 text-orange-400" />
+          </div>
+          <div>
+            <p className="text-xs font-semibold text-white">QR Scanned — Table 07</p>
+            <p className="text-[10px] text-gray-400">AI Waiter ready to take your order</p>
+          </div>
+        </div>
+
+        {/* Chat messages */}
+        <div className="space-y-2.5">
+          {chatMessages.map((msg, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: msg.delay, duration: 0.4 }}
+              className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              {msg.from === 'ai' && (
+                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-500 to-purple-600 flex items-center justify-center mr-2 flex-shrink-0 mt-0.5">
+                  <Brain className="w-3 h-3 text-white" />
+                </div>
+              )}
+              <div
+                className={`text-[11px] leading-relaxed rounded-2xl px-3 py-2 max-w-[78%] ${
+                  msg.from === 'user'
+                    ? 'bg-orange-500/25 border border-orange-500/20 text-orange-100 rounded-tr-sm'
+                    : 'bg-white/8 border border-white/10 text-gray-200 rounded-tl-sm'
+                }`}
+              >
+                {msg.text}
+              </div>
+            </motion.div>
+          ))}
+
+          {/* Typing indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 4.2 }}
+            className="flex items-center gap-2"
+          >
+            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+              <Brain className="w-3 h-3 text-white" />
+            </div>
+            <div className="bg-white/8 border border-white/10 rounded-2xl rounded-tl-sm px-3 py-2 flex gap-1 items-center">
+              {[0, 1, 2].map((d) => (
+                <motion.div
+                  key={d}
+                  animate={{ opacity: [0.3, 1, 0.3], y: [0, -3, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity, delay: d * 0.2 }}
+                  className="w-1.5 h-1.5 rounded-full bg-gray-400"
+                />
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* AI suggestion chips */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 3.8 }}
+          className="flex flex-wrap gap-1.5"
+        >
+          {['🌿 Veg options', '🌶️ Spicy dishes', '🍰 Desserts', '♻️ Reorder usual'].map((chip) => (
+            <span key={chip} className="text-[10px] px-2.5 py-1 rounded-full bg-white/6 border border-white/10 text-gray-300 hover:bg-white/12 cursor-pointer transition-colors">
+              {chip}
+            </span>
+          ))}
+        </motion.div>
+
+        {/* Stats strip */}
+        <div className="grid grid-cols-3 gap-2 pt-1 border-t border-white/8">
           {[
-            { label: "Today's Revenue", value: '₹18,420', change: '+12%', color: 'text-emerald-400' },
-            { label: 'Active Tables', value: '14/20', change: '70%', color: 'text-orange-400' },
-            { label: 'Repeat Customers', value: '68%', change: '+18%', color: 'text-purple-400' },
-          ].map((stat) => (
-            <div key={stat.label} className="bg-white/5 rounded-xl p-3 border border-white/5">
-              <p className="text-[10px] text-gray-400 mb-1">{stat.label}</p>
-              <p className="text-base font-bold text-white">{stat.value}</p>
-              <p className={`text-[10px] font-medium ${stat.color}`}>{stat.change}</p>
+            { label: "Today's Orders", value: '412', color: 'text-orange-400' },
+            { label: 'AI Upsells', value: '87', color: 'text-purple-400' },
+            { label: 'Revenue', value: '₹18.4K', color: 'text-emerald-400' },
+          ].map((s) => (
+            <div key={s.label} className="text-center">
+              <p className={`text-sm font-bold ${s.color}`}>{s.value}</p>
+              <p className="text-[9px] text-gray-500">{s.label}</p>
             </div>
           ))}
-        </div>
-
-        {/* Chart area */}
-        <div className="bg-white/5 rounded-xl p-3 border border-white/5">
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-xs font-medium text-gray-300">Orders Today</p>
-            <span className="text-[10px] bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded-full">Live</span>
-          </div>
-          {/* Bar chart mock */}
-          <div className="flex items-end gap-1.5 h-16">
-            {[30, 55, 40, 80, 65, 90, 75, 85, 95, 70, 88, 60].map((h, i) => (
-              <motion.div
-                key={i}
-                initial={{ height: 0 }}
-                animate={{ height: `${h}%` }}
-                transition={{ delay: 1 + i * 0.05, duration: 0.4, ease: 'easeOut' }}
-                className={`flex-1 rounded-t-sm ${i === 9 ? 'bg-orange-500' : 'bg-orange-500/30'}`}
-                style={{ minWidth: 0 }}
-              />
-            ))}
-          </div>
-          <div className="flex justify-between mt-1">
-            {['9AM','11AM','1PM','3PM','5PM','7PM'].map(t => (
-              <span key={t} className="text-[9px] text-gray-500">{t}</span>
-            ))}
-          </div>
-        </div>
-
-        {/* AI Insights row */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-3">
-            <div className="flex items-center gap-1.5 mb-1.5">
-              <Brain className="w-3 h-3 text-purple-400" />
-              <span className="text-[10px] text-purple-400 font-medium">AI Insight</span>
-            </div>
-            <p className="text-[10px] text-gray-300 leading-relaxed">
-              Pizza orders spike with garlic bread <strong className="text-white">62%</strong> of the time
-            </p>
-          </div>
-          <div className="bg-white/5 border border-white/5 rounded-xl p-3">
-            <p className="text-[10px] text-gray-400 mb-1">Popular Right Now</p>
-            {['Paneer Tikka', 'Cold Coffee', 'Veg Biryani'].map((dish, i) => (
-              <div key={dish} className="flex items-center justify-between py-0.5">
-                <span className="text-[10px] text-gray-300">{dish}</span>
-                <div className="h-1 w-12 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-orange-500 rounded-full" style={{ width: `${[90, 70, 55][i]}%` }} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Recent orders */}
-        <div className="bg-white/5 rounded-xl p-3 border border-white/5">
-          <p className="text-[10px] font-medium text-gray-300 mb-2">Recent Orders</p>
-          <div className="space-y-1.5">
-            {[
-              { table: 'T-04', item: 'Paneer Tikka × 2', status: 'Preparing', color: 'text-yellow-400' },
-              { table: 'T-07', item: 'Cold Coffee × 1', status: 'Ready', color: 'text-emerald-400' },
-              { table: 'T-11', item: 'Veg Biryani × 3', status: 'Ordered', color: 'text-blue-400' },
-            ].map((order) => (
-              <div key={order.table} className="flex items-center justify-between">
-                <span className="text-[10px] text-orange-400 font-medium">{order.table}</span>
-                <span className="text-[10px] text-gray-300">{order.item}</span>
-                <span className={`text-[9px] font-medium ${order.color}`}>{order.status}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </div>
@@ -195,7 +198,6 @@ export default function Hero() {
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/15 rounded-full blur-3xl" />
         <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
-        {/* Grid */}
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
@@ -217,7 +219,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass border border-orange-500/30 text-orange-400 text-xs font-medium mb-6"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
-              AI-Powered Restaurant Platform
+              Conversational Ordering AI — Now Live
             </motion.div>
 
             <motion.h1
@@ -226,7 +228,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-white mb-6"
             >
-              Turn Every Table Into an{' '}
+              Turn Every Restaurant Table Into an{' '}
               <span className="text-gradient">AI-Powered</span>{' '}
               Revenue Engine
             </motion.h1>
@@ -237,14 +239,33 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg text-gray-400 leading-relaxed mb-8 max-w-lg"
             >
-              QR ordering, AI analytics, customer retention, and automated WhatsApp campaigns — all in one platform built for modern restaurants.
+              AI-powered ordering, smart recommendations, customer retention, and automated restaurant growth — all through a simple QR scan.
             </motion.p>
+
+            {/* Key differentiators */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
+              className="flex flex-col gap-2 mb-8"
+            >
+              {[
+                { icon: MessageSquare, text: 'Customers chat with an AI waiter — not just browse a menu', color: 'text-purple-400' },
+                { icon: Brain, text: 'AI upsells, recommends, and remembers every customer', color: 'text-orange-400' },
+                { icon: Sparkles, text: 'Upload menu once — AI builds your entire digital experience', color: 'text-emerald-400' },
+              ].map(({ icon: Icon, text, color }) => (
+                <div key={text} className="flex items-center gap-2.5">
+                  <Icon className={`w-4 h-4 ${color} flex-shrink-0`} />
+                  <p className="text-sm text-gray-300">{text}</p>
+                </div>
+              ))}
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 mb-12"
+              className="flex flex-col sm:flex-row gap-4 mb-10"
             >
               <a
                 href="#demo"
@@ -272,8 +293,8 @@ export default function Hero() {
             >
               {[
                 { value: '120+', label: 'Restaurants' },
-                { value: '50K+', label: 'Orders' },
-                { value: '18%', label: 'Repeat Uplift' },
+                { value: '50K+', label: 'AI Orders' },
+                { value: '+22%', label: 'Order Value' },
               ].map((stat) => (
                 <div key={stat.label} className="text-center">
                   <p className="text-xl font-bold text-white">{stat.value}</p>
@@ -283,19 +304,17 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right — Dashboard */}
+          {/* Right — AI Chat Mockup */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="relative lg:pl-8"
           >
-            {/* Glow behind dashboard */}
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-purple-500/10 rounded-3xl blur-2xl" />
             <div className="relative">
-              <DashboardMockup />
+              <HeroChatMockup />
             </div>
-            {/* Floating cards */}
             {floatingCards.map((card) => (
               <FloatingCard key={card.label} {...card} />
             ))}

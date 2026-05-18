@@ -59,11 +59,11 @@ export default function HowItWorks() {
             How It Works
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-5">
-            Live in{' '}
+            AI-Powered Restaurant in{' '}
             <span className="text-gradient">3 Simple Steps</span>
           </h2>
           <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            No complex setup. No technical knowledge needed. Go from sign-up to taking AI-powered orders in minutes.
+            No complex setup. No technical knowledge needed. Go from sign-up to running a fully AI-powered restaurant in under 10 minutes.
           </p>
         </motion.div>
 

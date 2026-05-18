@@ -169,14 +169,14 @@ export default function Features() {
           className="text-center mb-16"
         >
           <span className="inline-block text-xs font-semibold text-orange-400 uppercase tracking-widest mb-4 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20">
-            Platform Features
+            AI Restaurant Copilot
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-5">
-            Everything Your Restaurant{' '}
-            <span className="text-gradient">Needs to Grow</span>
+            The Complete AI-Powered{' '}
+            <span className="text-gradient">Restaurant Growth Stack</span>
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            One AI platform that replaces fragmented tools, drives orders, retains customers, and generates insights automatically.
+            One intelligent platform that replaces fragmented tools — conversational AI ordering, real-time analytics, customer retention, and automated growth on autopilot.
           </p>
         </motion.div>
 
