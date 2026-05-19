@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Play, TrendingUp, Brain, Sparkles, MessageSquare, Zap } from 'lucide-react'
+import { track, EVENTS } from '../lib/analytics'
 
 const floatingCards = [
   {
@@ -192,7 +193,7 @@ function HeroChatMockup() {
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden">
       {/* Background glows */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/15 rounded-full blur-3xl" />
@@ -219,7 +220,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass border border-orange-500/30 text-orange-400 text-xs font-medium mb-6"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
-              Conversational Ordering AI — Now Live
+              Concept Preview — We're Validating With Real Restaurants
             </motion.div>
 
             <motion.h1
@@ -265,24 +266,45 @@ export default function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 mb-10"
+              className="flex flex-col sm:flex-row gap-4 mb-8"
             >
               <a
-                href="#demo"
+                href="#waitlist"
+                onClick={() => track(EVENTS.CTA_CLICKED, { location: 'hero', label: 'join_waitlist' })}
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold text-base shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-0.5 transition-all duration-200"
               >
-                Start Free Pilot
+                Join Waitlist — It's Free
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a
                 href="#demo"
+                onClick={() => track(EVENTS.CTA_CLICKED, { location: 'hero', label: 'see_how_it_works' })}
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl glass border border-white/10 text-white font-semibold text-base hover:bg-white/10 transition-all duration-200"
               >
                 <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
                   <Play className="w-3 h-3 text-white fill-white ml-0.5" />
                 </div>
-                Watch Demo
+                See How It Works
               </a>
+            </motion.div>
+
+            {/* Interest counter */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+              className="flex items-center gap-3 mb-8 p-3 rounded-xl bg-orange-500/8 border border-orange-500/15"
+            >
+              <div className="flex -space-x-2">
+                {['bg-orange-400', 'bg-purple-400', 'bg-emerald-400', 'bg-blue-400'].map((c, i) => (
+                  <div key={i} className={`w-7 h-7 rounded-full ${c} border-2 border-[#030712] flex items-center justify-center text-[9px] font-bold text-white`}>
+                    {['R', 'S', 'A', 'M'][i]}
+                  </div>
+                ))}
+              </div>
+              <p className="text-sm text-gray-300">
+                <span className="text-orange-400 font-bold">63 restaurant owners</span> have already shown interest
+              </p>
             </motion.div>
 
             <motion.div
@@ -292,9 +314,9 @@ export default function Hero() {
               className="flex items-center gap-6"
             >
               {[
-                { value: '120+', label: 'Restaurants' },
-                { value: '50K+', label: 'AI Orders' },
-                { value: '+22%', label: 'Order Value' },
+                { value: 'Free', label: 'To Join Waitlist' },
+                { value: '+22%', label: 'Higher Order Value' },
+                { value: '10 min', label: 'Setup Time' },
               ].map((stat) => (
                 <div key={stat.label} className="text-center">
                   <p className="text-xl font-bold text-white">{stat.value}</p>

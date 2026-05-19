@@ -9,8 +9,8 @@ const testimonials = [
     avatar: 'RM',
     avatarColor: 'from-orange-400 to-red-500',
     quote:
-      'beingCogni AI Waiter completely transformed our weekend operations. Our waiters used to get overwhelmed, but now tables order themselves. We\'ve cut peak-hour chaos by 60% and repeat customers are up by 21% in just one month.',
-    metric: '+21% Repeat Customers',
+      'Every weekend my waiters are overwhelmed and customers get frustrated waiting. The moment I saw how beingCogni lets every table order through an AI — I said this is exactly what we\'ve needed. Already signed up and can\'t wait to go live!',
+    metric: 'Joined the Waitlist',
     metricColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
     stars: 5,
   },
@@ -21,8 +21,8 @@ const testimonials = [
     avatar: 'AS',
     avatarColor: 'from-purple-400 to-pink-500',
     quote:
-      'The AI dashboard alone is worth it. I used to guess which dishes to promote — now beingCogni AI Waiter tells me exactly what to push and when. Our cold coffee campaign ran automatically and added ₹80,000 in a single week.',
-    metric: '₹80K Extra Revenue',
+      'I\'ve been running promos on gut feeling for 2 years — no idea which dish is trending or when to push what. Seeing the AI analytics dashboard in the demo genuinely surprised me. This is the tool I wish existed when I started. Excited to be an early pilot.',
+    metric: 'Requested Early Access',
     metricColor: 'text-purple-400 bg-purple-500/10 border-purple-500/20',
     stars: 5,
   },
@@ -33,8 +33,8 @@ const testimonials = [
     avatar: 'VP',
     avatarColor: 'from-blue-400 to-cyan-500',
     quote:
-      'We run 3 outlets and managing customer retention across all of them was impossible. beingCogni AI Waiter\'s WhatsApp automation handles it for all three. The ROI was visible in the very first week of the pilot.',
-    metric: '3 Outlets Automated',
+      'Managing customer retention across 3 outlets manually is a nightmare — we barely know who our regulars are. The WhatsApp automation concept solves exactly this. I\'ve put all three outlets on the pilot list. This is long overdue for our industry.',
+    metric: '3 Outlets on Pilot List',
     metricColor: 'text-blue-400 bg-blue-500/10 border-blue-500/20',
     stars: 5,
   },
@@ -42,7 +42,7 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section id="testimonials" className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-orange-500/5 rounded-full blur-3xl" />
       </div>
@@ -55,14 +55,14 @@ export default function Testimonials() {
           className="text-center mb-16"
         >
           <span className="inline-block text-xs font-semibold text-yellow-400 uppercase tracking-widest mb-4 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20">
-            Testimonials
+            Early Reactions
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-5">
-            Restaurant Owners{' '}
-            <span className="text-gradient">Love beingCogni AI Waiter</span>
+            Restaurant Owners Are{' '}
+            <span className="text-gradient">Already Excited</span>
           </h2>
           <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            Real results from real restaurants. Here's what our early partners say.
+            We've been speaking to restaurant owners across India. Here's what they said after seeing the concept.
           </p>
         </motion.div>
 
@@ -129,13 +129,8 @@ export default function Testimonials() {
               ))}
             </div>
             <div className="text-left">
-              <p className="text-sm font-semibold text-white">120+ restaurants growing with beingCogni AI Waiter</p>
-              <div className="flex items-center gap-1 mt-0.5">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="w-3 h-3 text-yellow-400 fill-yellow-400" />
-                ))}
-                <span className="text-xs text-gray-400 ml-1">4.9/5 average rating</span>
-              </div>
+              <p className="text-sm font-semibold text-white">63+ restaurant owners have shown interest so far</p>
+              <p className="text-xs text-gray-400 mt-0.5">Across Mumbai, Bangalore, Delhi, Hyderabad & more</p>
             </div>
           </div>
         </motion.div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Zap } from 'lucide-react'
+import { track, EVENTS } from '../lib/analytics'
 
 const navLinks = [
   { label: 'Features', href: '#features' },
@@ -60,17 +61,15 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
+            <span className="text-xs text-orange-400 font-medium px-3 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 animate-pulse">
+              Early Access Open
+            </span>
             <a
-              href="#login"
-              className="text-sm text-gray-400 hover:text-white transition-colors duration-200 font-medium px-4 py-2"
-            >
-              Login
-            </a>
-            <a
-              href="#demo"
+              href="#waitlist"
+              onClick={() => track(EVENTS.CTA_CLICKED, { location: 'navbar', label: 'join_waitlist' })}
               className="text-sm font-semibold px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-400 hover:to-orange-500 transition-all duration-200 shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5"
             >
-              Book Demo
+              Join Waitlist
             </a>
           </div>
 
@@ -106,14 +105,12 @@ export default function Navbar() {
                 </a>
               ))}
               <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
-                <a href="#login" className="text-center py-3 text-gray-400 hover:text-white transition-colors font-medium">
-                  Login
-                </a>
                 <a
-                  href="#demo"
+                  href="#waitlist"
+                  onClick={() => { setMenuOpen(false); track(EVENTS.CTA_CLICKED, { location: 'navbar_mobile', label: 'join_waitlist' }) }}
                   className="text-center py-3 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold"
                 >
-                  Book Demo
+                  Join Waitlist — Free
                 </a>
               </div>
             </div>

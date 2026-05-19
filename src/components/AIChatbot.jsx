@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Brain, TrendingUp, ChevronLeft, ChevronRight, Zap, RotateCcw, Star, Globe } from 'lucide-react'
+import { Brain, TrendingUp, ChevronLeft, ChevronRight, Zap, RotateCcw, Star, Globe, Mic } from 'lucide-react'
+import { track, EVENTS } from '../lib/analytics'
 
 /* ── Use-case data ─────────────────────────────────────────── */
 const useCases = [
@@ -88,6 +89,27 @@ const useCases = [
     badge: { text: 'Smart\nSuggestions', icon: Brain, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
     sideTag: { text: 'AI Assistance', color: 'text-blue-400', bg: 'bg-blue-500/15', border: 'border-blue-500/30' },
   },
+  {
+    id: 'voice',
+    number: '5',
+    label: 'Voice Ordering',
+    subtitle: 'Speak naturally, AI understands',
+    accent: { text: 'text-cyan-400', bg: 'bg-cyan-500/15', border: 'border-cyan-500/30', glow: 'shadow-cyan-500/20' },
+    tabs: ['Recommended', 'Specials', 'Mains', 'Desserts'],
+    activeTab: 1,
+    menuItems: [
+      { emoji: '🐟', name: 'Grilled Salmon', desc: 'Fresh salmon with lemon butter sauce', price: '₹449', badge: "Chef's Special" },
+      { emoji: '🥩', name: 'Mutton Rogan Josh', desc: 'Slow-cooked mutton in aromatic gravy', price: '₹399' },
+      { emoji: '🍰', name: 'Chocolate Lava Cake', desc: 'Warm chocolate cake with vanilla scoop', price: '₹189' },
+    ],
+    chat: [
+      { from: 'user', text: "Show me today's specials", delay: 1.6, voice: true },
+      { from: 'ai', text: "Here are today's Chef Specials! 👨‍🍳", delay: 2.5 },
+      { from: 'ai', text: 'Grilled Salmon is our #1 pick today. Add it?', delay: 3.4, specialCard: { label: 'Grilled Salmon', price: '₹449', tag: "Chef's Pick" } },
+    ],
+    badge: { text: 'Voice\nOrdering', icon: Mic, color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/20' },
+    sideTag: { text: 'AI Voice', color: 'text-cyan-400', bg: 'bg-cyan-500/15', border: 'border-cyan-500/30' },
+  },
 ]
 
 const topStats = [
@@ -156,6 +178,26 @@ function ChatMsg({ msg, ucAccent }) {
             <p className="text-[10px] font-bold text-orange-400 mt-0.5">{msg.spicyCard.price}</p>
           </div>
         )}
+        {/* Chef special card */}
+        {msg.specialCard && (
+          <div className="bg-cyan-500/10 border border-cyan-500/25 rounded-xl p-2 w-full">
+            <div className="flex items-center justify-between mb-0.5">
+              <p className="text-[10px] font-semibold text-white">{msg.specialCard.label}</p>
+              <span className="text-[8px] bg-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded-full font-bold">{msg.specialCard.tag}</span>
+            </div>
+            <p className="text-[10px] font-bold text-orange-400 mb-1.5">{msg.specialCard.price}</p>
+            <button className="w-full text-[9px] font-bold py-1 rounded-lg bg-gradient-to-r from-cyan-500 to-orange-500 text-white flex items-center justify-center gap-1">
+              + Add to Order
+            </button>
+          </div>
+        )}
+        {/* Voice badge on user messages */}
+        {msg.voice && (
+          <div className="flex items-center gap-1 mt-0.5">
+            <Mic className="w-2 h-2 text-cyan-400" />
+            <span className="text-[8px] text-cyan-400 font-medium">Voice</span>
+          </div>
+        )}
       </div>
     </motion.div>
   )
@@ -177,15 +219,63 @@ function TypingIndicator() {
   )
 }
 
+/* ── Voice waveform input ──────────────────────────────────── */
+function VoiceInputArea() {
+  const bars = [5, 9, 6, 13, 8, 11, 5, 10, 7, 12, 6, 9]
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.2 }}
+      className="flex items-center gap-2 bg-cyan-500/12 border border-cyan-500/30 rounded-xl px-2.5 py-1.5"
+    >
+      {/* Waveform bars */}
+      <div className="flex items-center gap-[2px]">
+        {bars.map((h, i) => (
+          <motion.div
+            key={i}
+            animate={{ scaleY: [1, 2.2, 0.7, 1.8, 1] }}
+            transition={{ duration: 0.55, repeat: Infinity, delay: i * 0.045, ease: 'easeInOut' }}
+            className="w-[2px] rounded-full bg-cyan-400 origin-center"
+            style={{ height: `${h}px` }}
+          />
+        ))}
+      </div>
+      <span className="text-[9px] text-cyan-300 font-semibold flex-1">Listening…</span>
+      {/* Pulsing mic button */}
+      <motion.div
+        animate={{ scale: [1, 1.18, 1], boxShadow: ['0 0 0 0 rgba(6,182,212,0.4)', '0 0 0 5px rgba(6,182,212,0)', '0 0 0 0 rgba(6,182,212,0)'] }}
+        transition={{ duration: 1.1, repeat: Infinity }}
+        className="w-6 h-6 rounded-lg bg-cyan-500 flex items-center justify-center flex-shrink-0"
+      >
+        <Mic className="w-3 h-3 text-white" />
+      </motion.div>
+    </motion.div>
+  )
+}
+
 /* ── Phone mockup ──────────────────────────────────────────── */
 function PhoneMockup({ uc, direction }) {
   const [visibleMsgs, setVisibleMsgs] = useState([])
   const [isTyping, setIsTyping] = useState(false)
+  const [listeningActive, setListeningActive] = useState(false)
+
+  const lastOrderMsg = visibleMsgs.find(msg => msg.reorder)
 
   useEffect(() => {
     setVisibleMsgs([])
     setIsTyping(false)
+    setListeningActive(false)
     const timers = []
+
+    // Start voice listening animation if this use case has a voice message
+    const voiceMsg = uc.chat.find(msg => msg.voice)
+    if (voiceMsg) {
+      setListeningActive(true)
+      timers.push(setTimeout(() => setListeningActive(false), voiceMsg.delay * 1000 - 300))
+    }
+
     uc.chat.forEach((msg, i) => {
       if (msg.from === 'ai' && i > 0) {
         timers.push(setTimeout(() => setIsTyping(true), msg.delay * 1000 - 500))
@@ -208,7 +298,7 @@ function PhoneMockup({ uc, direction }) {
       className="w-[260px] flex-shrink-0"
     >
       {/* Phone shell */}
-      <div className={`relative bg-[#0d0f17] rounded-[2.4rem] border-2 border-white/15 shadow-2xl ${uc.accent.glow} overflow-hidden`} style={{ boxShadow: `0 0 60px rgba(0,0,0,0.6), 0 0 30px ${uc.id === 'upsell' ? 'rgba(249,115,22,0.12)' : uc.id === 'memory' ? 'rgba(168,85,247,0.12)' : uc.id === 'dietary' ? 'rgba(52,211,153,0.12)' : 'rgba(96,165,250,0.12)'}` }}>
+      <div className={`relative bg-[#0d0f17] rounded-[2.4rem] border-2 border-white/15 shadow-2xl ${uc.accent.glow} overflow-hidden`} style={{ boxShadow: `0 0 60px rgba(0,0,0,0.6), 0 0 30px ${uc.id === 'upsell' ? 'rgba(249,115,22,0.12)' : uc.id === 'memory' ? 'rgba(168,85,247,0.12)' : uc.id === 'dietary' ? 'rgba(52,211,153,0.12)' : uc.id === 'voice' ? 'rgba(6,182,212,0.12)' : 'rgba(96,165,250,0.12)'}` }}>
 
         {/* Status bar */}
         <div className="flex items-center justify-between px-5 pt-3 pb-1">
@@ -241,6 +331,32 @@ function PhoneMockup({ uc, direction }) {
             </div>
           </div>
         </div>
+
+        {/* Last order top banner — slides down when AI reveals order history */}
+        <AnimatePresence>
+          {lastOrderMsg && (
+            <motion.div
+              initial={{ opacity: 0, y: -20, scaleY: 0.85 }}
+              animate={{ opacity: 1, y: 0, scaleY: 1 }}
+              exit={{ opacity: 0, y: -20, scaleY: 0.85 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 26 }}
+              style={{ originY: 0 }}
+              className="mx-3 mt-2 bg-gradient-to-br from-purple-600/25 via-purple-500/10 to-orange-500/10 border border-purple-500/35 rounded-xl p-2.5 shadow-lg"
+            >
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <div className="w-4 h-4 rounded-full bg-purple-500/30 flex items-center justify-center flex-shrink-0">
+                  <RotateCcw className="w-2 h-2 text-purple-300" />
+                </div>
+                <span className="text-[8px] font-bold text-purple-300 uppercase tracking-widest">Picked up where you left off</span>
+              </div>
+              <p className="text-[11px] font-bold text-white leading-tight">{lastOrderMsg.reorder.label}</p>
+              <p className="text-[8px] text-gray-400 mt-0.5 mb-2">{lastOrderMsg.reorder.meta}</p>
+              <button className="w-full text-[9px] font-bold py-1.5 rounded-lg bg-gradient-to-r from-purple-500 to-orange-500 text-white flex items-center justify-center gap-1.5">
+                <RotateCcw className="w-2.5 h-2.5" /> Reorder Now
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Category tabs */}
         <div className="flex gap-1 px-3 py-2 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
@@ -309,14 +425,31 @@ function PhoneMockup({ uc, direction }) {
             </AnimatePresence>
           </div>
 
-          {/* Input */}
+          {/* Input — voice waveform or normal text field */}
           <div className="px-2.5 pb-2">
-            <div className="flex items-center gap-1.5 bg-white/6 border border-white/10 rounded-xl px-2.5 py-1.5">
-              <span className="text-[9px] text-gray-500 flex-1">Ask anything…</span>
-              <div className="w-5 h-5 rounded-lg bg-orange-500 flex items-center justify-center">
-                <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z" /></svg>
-              </div>
-            </div>
+            <AnimatePresence mode="wait">
+              {listeningActive ? (
+                <VoiceInputArea key="voice" />
+              ) : (
+                <motion.div
+                  key="text"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center gap-1.5 bg-white/6 border border-white/10 rounded-xl px-2.5 py-1.5"
+                >
+                  <span className="text-[9px] text-gray-500 flex-1">Ask anything…</span>
+                  {uc.id === 'voice' && (
+                    <div className="w-5 h-5 rounded-lg bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center">
+                      <Mic className="w-2.5 h-2.5 text-cyan-400" />
+                    </div>
+                  )}
+                  <div className="w-5 h-5 rounded-lg bg-orange-500 flex items-center justify-center">
+                    <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z" /></svg>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
@@ -333,6 +466,7 @@ export default function AIChatbot() {
   const go = (idx) => {
     setDirection(idx > active ? 1 : -1)
     setActive(idx)
+    track(EVENTS.AI_CHAT_TAB_SWITCHED, { use_case: useCases[idx].id, index: idx })
   }
 
   const prev = () => go((active - 1 + useCases.length) % useCases.length)
@@ -350,7 +484,7 @@ export default function AIChatbot() {
   const uc = useCases[active]
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section id="demo" className="py-24 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-3xl" />
@@ -464,7 +598,7 @@ export default function AIChatbot() {
             {/* Phone mockup */}
             <div className="relative flex justify-center">
               {/* Glow */}
-              <div className={`absolute inset-0 rounded-[3rem] blur-3xl opacity-30 ${uc.id === 'upsell' ? 'bg-orange-500/40' : uc.id === 'memory' ? 'bg-purple-500/40' : uc.id === 'dietary' ? 'bg-emerald-500/40' : 'bg-blue-500/40'}`} />
+              <div className={`absolute inset-0 rounded-[3rem] blur-3xl opacity-30 ${uc.id === 'upsell' ? 'bg-orange-500/40' : uc.id === 'memory' ? 'bg-purple-500/40' : uc.id === 'dietary' ? 'bg-emerald-500/40' : uc.id === 'voice' ? 'bg-cyan-500/40' : 'bg-blue-500/40'}`} />
               <div className="relative">
                 <AnimatePresence mode="wait" custom={direction}>
                   <PhoneMockup key={uc.id} uc={uc} direction={direction} />
@@ -488,6 +622,7 @@ export default function AIChatbot() {
                   uc.id === 'memory' && { icon: RotateCcw, text: 'Personalised greetings increase repeat visit rate by 34%', color: 'text-purple-400' },
                   uc.id === 'dietary' && { icon: Brain, text: 'Filtered menus reduce decision time and increase satisfaction', color: 'text-emerald-400' },
                   uc.id === 'questions' && { icon: Zap, text: 'AI answers food questions instantly — no waiter needed', color: 'text-blue-400' },
+                  uc.id === 'voice' && { icon: Mic, text: 'Voice ordering is 2× faster — customers speak naturally to order', color: 'text-cyan-400' },
                   { icon: Brain, text: 'AI learns and improves with every order placed', color: 'text-purple-400' },
                   { icon: Globe, text: 'Works in 10+ languages including Hindi & Tamil', color: 'text-blue-400' },
                 ].filter(Boolean).slice(0, 3).map((b, i) => (

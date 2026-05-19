@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Check, Zap, Building2, Rocket } from 'lucide-react'
+import { track, EVENTS } from '../lib/analytics'
 
 const plans = [
   {
@@ -85,15 +86,19 @@ export default function Pricing() {
           className="text-center mb-16"
         >
           <span className="inline-block text-xs font-semibold text-orange-400 uppercase tracking-widest mb-4 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20">
-            Pricing
+            Planned Pricing
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-5">
             Simple, Transparent{' '}
             <span className="text-gradient">Pricing</span>
           </h2>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            No hidden fees. No long-term contracts. Start free and upgrade as you grow.
+          <p className="text-gray-400 text-lg max-w-xl mx-auto mb-4">
+            These are our planned tiers — subject to change based on your feedback. Early waitlist members lock in the best rates.
           </p>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-500/10 border border-yellow-500/25 text-yellow-400 text-xs font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
+            Join the waitlist now to lock in early-adopter pricing
+          </div>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-6 items-start">
@@ -131,10 +136,11 @@ export default function Pricing() {
               </div>
 
               <a
-                href="#demo"
+                href="#waitlist"
+                onClick={() => track(EVENTS.PRICING_PLAN_CTA_CLICKED, { plan: plan.name.toLowerCase(), price: plan.price })}
                 className={`w-full text-center py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 hover:-translate-y-0.5 mb-7 block ${plan.ctaStyle}`}
               >
-                {plan.cta}
+                Reserve This Plan
               </a>
 
               <div className="space-y-3">
@@ -167,8 +173,8 @@ export default function Pricing() {
           transition={{ delay: 0.5 }}
           className="text-center text-gray-500 text-sm mt-10"
         >
-          All plans include a <span className="text-white font-medium">30-day free pilot</span>. No credit card required to start.{' '}
-          <a href="#demo" className="text-orange-400 hover:text-orange-300 underline underline-offset-4">Talk to us</a> if you need a custom plan.
+          Pricing is indicative and will be finalised based on early feedback.{' '}
+          <a href="#waitlist" className="text-orange-400 hover:text-orange-300 underline underline-offset-4">Join the waitlist</a> to influence the final pricing.
         </motion.p>
       </div>
     </section>
