@@ -116,7 +116,11 @@ export default function CTA() {
        Option 2 — Google Sheets via SheetDB / Sheetson / Apps Script
        Option 3 — EmailJS / Resend / Supabase
     ─────────────────────────────────────────────────────────── */
-    await new Promise((r) => setTimeout(r, 900)) // remove when wired to real backend
+    await fetch('https://script.google.com/macros/s/AKfycbz3reyFM-U5f5jB7DXeavntjued_WaB43PZqL56ZfnOvx8GpqBbP-DUQcVkIhngr8cX/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    })
     track(EVENTS.WAITLIST_SUBMITTED, {
       city: form.city,
       restaurant_type: form.type,
