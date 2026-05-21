@@ -219,8 +219,8 @@ export default function Hero() {
               transition={{ duration: 0.5 }}
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass border border-orange-500/30 text-orange-400 text-xs font-medium mb-6"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
-              Concept Preview — We're Validating With Real Restaurants
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Currently onboarding pilot restaurants across India
             </motion.div>
 
             <motion.h1
@@ -240,7 +240,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg text-gray-400 leading-relaxed mb-8 max-w-lg"
             >
-              AI-powered ordering, smart recommendations, customer retention, and automated restaurant growth — all through a simple QR scan.
+              AI-powered ordering, smart upselling, customer retention, and automated WhatsApp campaigns — all through a simple QR scan.
             </motion.p>
 
             {/* Key differentiators */}
@@ -270,21 +270,21 @@ export default function Hero() {
             >
               <a
                 href="#waitlist"
-                onClick={() => track(EVENTS.CTA_CLICKED, { location: 'hero', label: 'join_waitlist' })}
+                onClick={() => track(EVENTS.CTA_CLICKED, { location: 'hero', label: 'book_demo' })}
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold text-base shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-0.5 transition-all duration-200"
               >
-                Join Waitlist — It's Free
+                Book Free Demo
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a
                 href="#demo"
-                onClick={() => track(EVENTS.CTA_CLICKED, { location: 'hero', label: 'see_how_it_works' })}
+                onClick={() => track(EVENTS.CTA_CLICKED, { location: 'hero', label: 'watch_ai_demo' })}
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl glass border border-white/10 text-white font-semibold text-base hover:bg-white/10 transition-all duration-200"
               >
                 <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">
                   <Play className="w-3 h-3 text-white fill-white ml-0.5" />
                 </div>
-                See How It Works
+                Watch AI Demo
               </a>
             </motion.div>
 
@@ -303,7 +303,7 @@ export default function Hero() {
                 ))}
               </div>
               <p className="text-sm text-gray-300">
-                <span className="text-orange-400 font-bold">63 restaurant owners</span> have already shown interest
+                <span className="text-orange-400 font-bold">63+ restaurant owners</span> across India already interested
               </p>
             </motion.div>
 
@@ -314,8 +314,8 @@ export default function Hero() {
               className="flex items-center gap-6"
             >
               {[
-                { value: 'Free', label: 'To Join Waitlist' },
                 { value: '+22%', label: 'Higher Order Value' },
+                { value: '3×', label: 'More Repeat Customers' },
                 { value: '10 min', label: 'Setup Time' },
               ].map((stat) => (
                 <div key={stat.label} className="text-center">

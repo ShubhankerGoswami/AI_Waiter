@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, CheckCircle, Users, MapPin, Smartphone, Store, Sparkles, ChevronDown } from 'lucide-react'
+import { ArrowRight, CheckCircle, Users, MapPin, Smartphone, Store, Sparkles, ChevronDown, Mail, Rocket } from 'lucide-react'
 import { track, EVENTS } from '../lib/analytics'
 
-/* ── Hardcoded seed count — update or wire to a real backend ── */
 const SEED_COUNT = 63
 
 const restaurantTypes = [
@@ -17,24 +16,24 @@ const restaurantTypes = [
   'Other',
 ]
 
-const topInterests = [
-  'AI Ordering & Upselling',
-  'WhatsApp Customer Retention',
-  'Analytics & Insights',
-  'Voice Ordering',
-  'All of the above',
+const intentOptions = [
+  'Yes, definitely — sign me up',
+  'Interested in a free demo',
+  'Maybe later — tell me more',
+  'Need more information first',
 ]
 
 const initialForm = {
   name: '',
   restaurant: '',
+  phone: '',
+  email: '',
   city: '',
-  whatsapp: '',
   type: '',
-  interest: '',
+  intent: '',
 }
 
-function SelectField({ label, icon: Icon, value, onChange, options, placeholder }) {
+function SelectField({ label, icon: Icon, value, onChange, options, placeholder, required = true }) {
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-xs font-semibold text-gray-400 uppercase tracking-wide flex items-center gap-1.5">
@@ -45,7 +44,7 @@ function SelectField({ label, icon: Icon, value, onChange, options, placeholder 
         <select
           value={value}
           onChange={onChange}
-          required
+          required={required}
           className="w-full bg-white/6 border border-white/12 text-white text-sm rounded-xl px-4 py-3 pr-10 appearance-none focus:outline-none focus:border-orange-500/60 focus:bg-white/10 transition-all placeholder-gray-600"
         >
           <option value="" disabled className="bg-[#0d0f17] text-gray-500">{placeholder}</option>
@@ -65,6 +64,7 @@ function InputField({ label, icon: Icon, type = 'text', value, onChange, placeho
       <label className="text-xs font-semibold text-gray-400 uppercase tracking-wide flex items-center gap-1.5">
         <Icon className="w-3.5 h-3.5" />
         {label}
+        {!required && <span className="text-gray-600 normal-case font-normal tracking-normal">(optional)</span>}
       </label>
       <input
         type={type}
@@ -85,7 +85,6 @@ export default function CTA() {
   const [loading, setLoading] = useState(false)
   const formStarted = useRef(false)
 
-  // Abandoned tracking: user has started filling but leaves without submitting
   useEffect(() => {
     const onVisibilityChange = () => {
       if (document.visibilityState === 'hidden' && formStarted.current && !submitted) {
@@ -104,27 +103,25 @@ export default function CTA() {
     setForm((f) => ({ ...f, [field]: e.target.value }))
   }
 
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3reyFM-U5f5jB7DXeavntjued_WaB43PZqL56ZfnOvx8GpqBbP-DUQcVkIhngr8cX/exec'
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    /* ── Connect your form backend here ──────────────────────────
-       Option 1 — Formspree:
-         await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-           method: 'POST', headers: { 'Content-Type': 'application/json' },
-           body: JSON.stringify(form),
-         })
-       Option 2 — Google Sheets via SheetDB / Sheetson / Apps Script
-       Option 3 — EmailJS / Resend / Supabase
-    ─────────────────────────────────────────────────────────── */
-    await fetch('https://script.google.com/macros/s/AKfycbz3reyFM-U5f5jB7DXeavntjued_WaB43PZqL56ZfnOvx8GpqBbP-DUQcVkIhngr8cX/exec', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    })
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(form),
+      })
+    } catch (_) {}
+
     track(EVENTS.WAITLIST_SUBMITTED, {
       city: form.city,
       restaurant_type: form.type,
-      interest: form.interest,
+      intent: form.intent,
       waitlist_position: count + 1,
     })
     formStarted.current = false
@@ -159,19 +156,17 @@ export default function CTA() {
           viewport={{ once: true }}
           className="text-center mb-10"
         >
-          <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/12 border border-orange-500/25 text-orange-400 text-xs font-semibold mb-5"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            Idea Validation — Early Access
+          <motion.div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/12 border border-orange-500/25 text-orange-400 text-xs font-semibold mb-5">
+            <Rocket className="w-3.5 h-3.5" />
+            Free Pilot Program — Limited Spots
           </motion.div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4">
-            Be Among the First{' '}
-            <span className="text-gradient">100 Restaurants</span>
+            Launch AIWaiter In Your{' '}
+            <span className="text-gradient">Restaurant</span>
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
-            We're validating this concept with real restaurant owners. Share your details and we'll personally reach out to understand your needs — and shape the product around them.
+            Increase repeat customers, automate ordering, and grow restaurant revenue using AI. Apply for our free pilot — we'll personally reach out within 24 hours.
           </p>
         </motion.div>
 
@@ -196,7 +191,7 @@ export default function CTA() {
                 <motion.span key={count} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }}>
                   {count}
                 </motion.span>{' '}
-                restaurant owners interested
+                restaurant owners have applied
               </p>
               <p className="text-[11px] text-gray-500">across India — growing daily</p>
             </div>
@@ -214,7 +209,6 @@ export default function CTA() {
         >
           <AnimatePresence mode="wait">
             {submitted ? (
-              /* ── Success state ── */
               <motion.div
                 key="success"
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -229,27 +223,28 @@ export default function CTA() {
                 >
                   <CheckCircle className="w-10 h-10 text-emerald-400" />
                 </motion.div>
-                <h3 className="text-2xl font-bold text-white mb-3">You're on the list! 🎉</h3>
+                <h3 className="text-2xl font-bold text-white mb-3">Application Received! 🎉</h3>
                 <p className="text-gray-400 max-w-md mx-auto mb-6 leading-relaxed">
-                  Thanks <span className="text-white font-semibold">{form.name}</span>! We'll personally reach out to you on WhatsApp at{' '}
-                  <span className="text-orange-400 font-semibold">+91 {form.whatsapp}</span> within 24 hours.
+                  Thanks <span className="text-white font-semibold">{form.name}</span>! Our team will personally reach out to you on{' '}
+                  <span className="text-orange-400 font-semibold">{form.phone ? `+91 ${form.phone}` : form.email}</span> within 24 hours to discuss your free pilot.
                 </p>
                 <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-semibold">
                   <Users className="w-4 h-4" />
-                  You are #{count} on the waitlist
+                  You are #{count} on the pilot waitlist
                 </div>
                 <p className="text-xs text-gray-600 mt-6">
                   Know a fellow restaurant owner? Share this page with them.
                 </p>
               </motion.div>
             ) : (
-              /* ── Form ── */
               <motion.form
                 key="form"
                 onSubmit={handleSubmit}
                 className="p-8"
               >
-                <div className="grid sm:grid-cols-2 gap-5 mb-5">
+                {/* Required fields */}
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-4">Required Information</p>
+                <div className="grid sm:grid-cols-3 gap-5 mb-6">
                   <InputField
                     label="Your Name"
                     icon={Users}
@@ -265,19 +260,34 @@ export default function CTA() {
                     placeholder="Spice Garden"
                   />
                   <InputField
+                    label="Phone Number"
+                    icon={Smartphone}
+                    type="tel"
+                    value={form.phone}
+                    onChange={set('phone')}
+                    placeholder="98765 43210"
+                  />
+                </div>
+
+                {/* Optional fields */}
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-4">Optional Details</p>
+                <div className="grid sm:grid-cols-3 gap-5 mb-6">
+                  <InputField
+                    label="Email"
+                    icon={Mail}
+                    type="email"
+                    value={form.email}
+                    onChange={set('email')}
+                    placeholder="rahul@spicegarden.com"
+                    required={false}
+                  />
+                  <InputField
                     label="City"
                     icon={MapPin}
                     value={form.city}
                     onChange={set('city')}
                     placeholder="Mumbai"
-                  />
-                  <InputField
-                    label="WhatsApp Number"
-                    icon={Smartphone}
-                    type="tel"
-                    value={form.whatsapp}
-                    onChange={set('whatsapp')}
-                    placeholder="98765 43210"
+                    required={false}
                   />
                   <SelectField
                     label="Restaurant Type"
@@ -286,15 +296,41 @@ export default function CTA() {
                     onChange={set('type')}
                     options={restaurantTypes}
                     placeholder="Select your type…"
+                    required={false}
                   />
-                  <SelectField
-                    label="What Interests You Most?"
-                    icon={Sparkles}
-                    value={form.interest}
-                    onChange={set('interest')}
-                    options={topInterests}
-                    placeholder="Select a feature…"
-                  />
+                </div>
+
+                {/* Intent question */}
+                <div className="mb-6 p-4 rounded-2xl bg-orange-500/6 border border-orange-500/15">
+                  <p className="text-sm font-semibold text-white mb-3 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-orange-400" />
+                    Would you be interested in using AIWaiter to increase repeat customers and improve restaurant operations?
+                  </p>
+                  <div className="grid sm:grid-cols-2 gap-2">
+                    {intentOptions.map((opt) => (
+                      <label
+                        key={opt}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl border cursor-pointer transition-all duration-200 ${
+                          form.intent === opt
+                            ? 'bg-orange-500/15 border-orange-500/40 text-white'
+                            : 'bg-white/4 border-white/10 text-gray-400 hover:border-white/20 hover:text-gray-200'
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="intent"
+                          value={opt}
+                          checked={form.intent === opt}
+                          onChange={set('intent')}
+                          className="sr-only"
+                        />
+                        <span className={`w-4 h-4 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${form.intent === opt ? 'border-orange-500 bg-orange-500' : 'border-gray-600'}`}>
+                          {form.intent === opt && <span className="w-1.5 h-1.5 rounded-full bg-white block" />}
+                        </span>
+                        <span className="text-xs font-medium leading-snug">{opt}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
 
                 <button
@@ -313,14 +349,14 @@ export default function CTA() {
                     </>
                   ) : (
                     <>
-                      Reserve My Spot — It's Free
+                      Apply For Free Pilot
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
 
                 <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-5">
-                  {['No credit card', 'No commitment', 'We respond within 24 hrs on WhatsApp'].map((t) => (
+                  {['No credit card', 'No commitment', 'We respond within 24 hrs'].map((t) => (
                     <span key={t} className="text-xs text-gray-500 flex items-center gap-1.5">
                       <span className="w-1 h-1 rounded-full bg-gray-600" />
                       {t}

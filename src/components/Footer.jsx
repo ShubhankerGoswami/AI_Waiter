@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { Zap, Globe, AtSign, Hash, ExternalLink } from 'lucide-react'
+import { Globe, AtSign, Hash, ExternalLink } from 'lucide-react'
+import beingCogniLogo from '../assets/being_cogni_dark_logo.png'
 
 const footerLinks = [
   {
@@ -62,21 +63,19 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-10 mb-14">
           {/* Brand col */}
           <div className="lg:col-span-2">
-            <a href="#" className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/30">
-                <Zap className="w-4 h-4 text-white" fill="white" />
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="text-[10px] font-medium text-gray-500 tracking-widest uppercase">beingCogni</span>
-                <span className="text-lg font-bold text-white tracking-tight">
-                  AI<span className="text-gradient">Waiter</span>
-                </span>
-              </div>
+            <a href="#" className="inline-block mb-4">
+              <img src="/ai-waiter-logo.svg" alt="AI Waiter" style={{ height: 48 }} />
             </a>
             <p className="text-sm text-gray-400 leading-relaxed mb-2 max-w-xs">
               AI-powered restaurant ordering, analytics, and customer retention platform by beingCogni.
             </p>
-            <p className="text-xs text-gray-600 mb-6 max-w-xs">Built for modern restaurants, cafes, QSRs, and cloud kitchens.</p>
+            <p className="text-xs text-gray-600 mb-5 max-w-xs">Built for modern restaurants, cafes, QSRs, and cloud kitchens.</p>
+
+            {/* beingCogni brand attribution */}
+            <div className="flex flex-col gap-1 mb-6">
+              <span className="text-[10px] text-gray-500 uppercase tracking-widest font-medium">A product of</span>
+              <img src={beingCogniLogo} alt="beingCogni" className="w-44 h-auto object-contain -ml-3" />
+            </div>
             <div className="flex gap-3">
               {socials.map(({ icon: Icon, href, label }) => (
                 <a
@@ -113,9 +112,11 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-white/8 pt-7 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-600">
-            © 2026 beingCogni AI Waiter. A beingCogni product. All rights reserved.
-          </p>
+          <div className="flex items-center gap-1">
+            <p className="text-xs text-gray-600">© 2026 AI Waiter. A product of</p>
+            <img src={beingCogniLogo} alt="beingCogni" className="w-24 h-auto object-contain -my-3" />
+            <p className="text-xs text-gray-600">All rights reserved.</p>
+          </div>
           <div className="flex items-center gap-6">
             {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((item) => (
               <a key={item} href="#" className="text-xs text-gray-600 hover:text-gray-400 transition-colors duration-200">

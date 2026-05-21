@@ -5,10 +5,10 @@ const steps = [
   {
     number: '01',
     icon: Upload,
-    title: 'Upload Menu & Generate QR',
+    title: 'Upload Your Menu',
     description:
-      'Upload your menu PDF or image. Our AI instantly extracts all dishes and builds a beautiful digital menu. Then generate a QR code for each table in seconds.',
-    detail: 'Takes less than 5 minutes to go live.',
+      'Upload your menu as a PDF or photo. AIWaiter AI instantly extracts every dish, price, and category — your digital ordering experience is live in under 10 minutes.',
+    detail: 'Takes less than 10 minutes to go live.',
     color: 'text-orange-400',
     iconBg: 'bg-orange-500/15',
     border: 'border-orange-500/30',
@@ -17,10 +17,10 @@ const steps = [
   {
     number: '02',
     icon: Smartphone,
-    title: 'Customers Order Digitally',
+    title: 'Customers Scan QR & Chat With AI',
     description:
-      'Guests scan the QR code, browse the menu, add items, and place their order — all from their phone. No app, no friction, no waiting for a waiter.',
-    detail: 'Orders go directly to kitchen display.',
+      'Guests scan the QR code at their table and chat naturally with your AI Waiter — it recommends dishes, answers questions, upsells combos, and takes orders instantly.',
+    detail: 'No app download. No friction. Just scan & order.',
     color: 'text-blue-400',
     iconBg: 'bg-blue-500/15',
     border: 'border-blue-500/30',
@@ -29,10 +29,10 @@ const steps = [
   {
     number: '03',
     icon: Sparkles,
-    title: 'AI Grows Your Restaurant',
+    title: 'AIWaiter Drives Repeat Orders',
     description:
-      'beingCogni AI Waiter captures customer data, sends WhatsApp campaigns, generates insights, and identifies growth opportunities — all running automatically in the background.',
-    detail: 'Avg. 18% increase in repeat customers.',
+      'AI captures every customer, sends personalized WhatsApp campaigns, remembers preferences, and automatically brings customers back — your restaurant grows on autopilot.',
+    detail: 'Avg. 3× more repeat customers with AI.',
     color: 'text-purple-400',
     iconBg: 'bg-purple-500/15',
     border: 'border-purple-500/30',
@@ -59,11 +59,12 @@ export default function HowItWorks() {
             How It Works
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-5">
-            AI-Powered Restaurant in{' '}
-            <span className="text-gradient">3 Simple Steps</span>
+            From Setup to{' '}
+            <span className="text-gradient">AI Growth</span>
+            {' '}in 3 Steps
           </h2>
           <p className="text-gray-400 text-lg max-w-xl mx-auto">
-            No complex setup. No technical knowledge needed. Go from sign-up to running a fully AI-powered restaurant in under 10 minutes.
+            No technical knowledge needed. Upload your menu, place QR codes on tables, and AIWaiter handles everything else — ordering, upselling, and customer retention.
           </p>
         </motion.div>
 
@@ -137,10 +138,10 @@ export default function HowItWorks() {
               Ready to transform your restaurant?
             </p>
             <a
-              href="#demo"
+              href="#waitlist"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold text-sm shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 transition-all duration-200"
             >
-              Start Free Pilot — No Credit Card
+              Apply For Free Pilot — No Credit Card
             </a>
           </div>
         </motion.div>
