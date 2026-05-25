@@ -1,3 +1,19 @@
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Secrets
+.env
+backend/.env
+app/.env
+
+# Uploads (user-generated files)
+backend/uploads/logos/
+backend/uploads/menus/
+
 # Logs
 logs
 *.log
